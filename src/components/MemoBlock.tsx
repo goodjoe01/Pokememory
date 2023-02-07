@@ -13,12 +13,12 @@ const MemoBlock = ({pokemon, animation, handleOnClick}: props) => {
   const validation = (!pokemon.flipped && !animation);
 
   return (
-    <div className='memo-block' onClick={()=> (validation && handleOnClick(pokemon))}>
-      <div className={`memo-block-inner ${pokemon.flipped && 'memo-block-flipped'}`}>
-        <div className='pkm_block-front'>
+    <div className='poke-block' onClick={()=> (validation && handleOnClick(pokemon))}>
+      <div className={`poke-block-inner ${pokemon.flipped && 'poke-block-flipped'}`}>
+        <div className='poke-block-front'>
         </div>
-        <div className='pkm_block-back'>
-          <img src={pokemon.image} className='pkm_image' alt={pokemon.name} />
+        <div className='poke-block-back'>
+          <img src={pokemon.image} className='poke-image' alt={pokemon.name} />
         </div>
       </div>
     </div>

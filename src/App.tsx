@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
 import axios from 'axios'
-import { results, response, pokemon } from './types'
+import { response, pokemon } from './types'
 import './App.css'
 import MemoBlock from './components/MemoBlock'
-
+import Levels from './components/Levels'
+import pokeMemory from './assets/pokeMemory.webp'
 
 const initialResponse: response= {
   count: null,
@@ -51,13 +51,12 @@ async function createBoard(data: response) {
   await Promise.all(promises);
   return pokemonList;
 }
-/* const fillBoard = async () => {
-  const a = await data.results.map(async (poke)=> {
-    const pokemonDetails = await getPokemonByName(poke.name)
-    list.push(pokemonDetails);
-    setPokemons([...pokemons, ...list, ...list])
 
-  }); */
+const randomOffset = () => {
+  const limit = 951;
+  const randomNumber = Math.floor(Math.random() * limit);
+  return randomNumber;
+}
 
 function App() {
 
@@ -72,9 +71,6 @@ function App() {
     let pokemonsBoardCopy = [...pokemons];
     pokemonsBoardCopy.splice(block.index as number, 1, flippedBlock);
     setPokemons(pokemonsBoardCopy);
-
-    console.log(selectedBlock);
-    console.log(animation);
 
     if(selectedBlock === null){
       setSelectedBlock(block);
@@ -97,7 +93,7 @@ function App() {
     if(pokemons.length === EMPTY){
       const fetchData = async () => {
         const limit = 10;
-        const offset = 0;
+        const offset = randomOffset();
         const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
   
         const data: response = response.data;
@@ -118,17 +114,26 @@ function App() {
 
   return (
     <div className="Pokememory">
-      <div className='board'>
-        {
-          pokemons.map((pokemon, index)=>(
-            <MemoBlock 
-            pokemon={pokemon} 
-            key={index}
-            animation={animation}
-            handleOnClick={handleOnClick}
-            />
-          ))
-        }
+{/*       <img src={pokeMemory} alt="Poke-Memory Logo" className='poke-logo' /> */}
+      <h1>PokeMemory</h1>
+      <div className='content'>
+        <div className='board'>
+          {
+            pokemons.map((pokemon, index)=>(
+              <MemoBlock 
+              pokemon={pokemon} 
+              key={index}
+              animation={animation}
+              handleOnClick={handleOnClick}
+              />
+            ))
+          }
+        </div>
+        <div className='options'>
+          <button className='poke-btn'>Restart</button>
+          <Levels/>
+        </div>
+
       </div>
     </div>
   )

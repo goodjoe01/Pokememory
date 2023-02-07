@@ -12,6 +12,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  
+  --line-border-fill: #3498db;
+  --line-border-empty: #dee2e6;
+  --poke-btn: #e63946;
 }
 
 body {
@@ -25,4 +30,8 @@ body {
   display: none;
 }
  */
+
+button:active {
+  transform: scale(0.98);
+}
 
