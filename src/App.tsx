@@ -61,6 +61,7 @@ const randomOffset = () => {
 function App() {
 
   const [pokemons, setPokemons] = useState<pokemon[]>(initialPokemons)
+  const [limit, setLimit] = useState(10);
   const [response, setResponse] = useState<response>(initialResponse)
   const [selectedBlock, setSelectedBlock] = useState<pokemon | null>(null);
   const [animation, setAnimation] = useState(false);
@@ -89,10 +90,17 @@ function App() {
     }
   }
 
+  const onChangeLevel = (blocksQuantity: number) => {
+    const limit = blocksQuantity / 2;
+    setLimit(limit);
+    console.log('On change:', limit);
+  }
+
   useEffect(()=>{
-    if(pokemons.length === EMPTY){
+    /* if(pokemons.length === EMPTY){ */
+      console.log('USE EFFECT')
       const fetchData = async () => {
-        const limit = 10;
+        /* const limit = l; */
         const offset = randomOffset();
         const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
   
@@ -109,8 +117,8 @@ function App() {
         console.log(finalBoard);
       }
       fetchData();
-    }
-  },[]);
+    /* } */
+  },[limit]);
 
   return (
     <div className="Pokememory">
@@ -131,7 +139,7 @@ function App() {
         </div>
         <div className='options'>
           <button className='poke-btn'>Restart</button>
-          <Levels/>
+          <Levels onChangeLevel={onChangeLevel}/>
         </div>
 
       </div>

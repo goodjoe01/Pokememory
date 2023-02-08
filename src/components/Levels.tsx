@@ -1,6 +1,9 @@
 import { createRef, useEffect, useRef, useState } from 'react'
 import '../levels.css'
 
+type props = {
+  onChangeLevel: (blocksQuantity: number) => void;
+}
 
 const MIN_LEVEL = 1;
 const MAX_LEVEL = 4;
@@ -8,7 +11,7 @@ const circles = ['20','30','40','50'];
 let currentLevel = 1;
 
 
-const Dropdown = () => {
+const Dropdown = ({onChangeLevel}: props) => {
 
   const [level, setlevel] = useState<number>(currentLevel);
   const lineRefs = useRef<React.RefObject<HTMLDivElement>[]>([]);
@@ -35,12 +38,14 @@ const Dropdown = () => {
 
   const handleNext = () => {
     currentLevel++;
+    console.log('current level: ', currentLevel)
     setlevel(currentLevel);
     if(currentLevel>circles.length) {
       currentLevel = (circles.length)
       setlevel(currentLevel);
     };
     updateLevel();
+    onChangeLevel(Number(circles[currentLevel-1]));
   }
   
   const handlePrevious = () => {
@@ -50,7 +55,7 @@ const Dropdown = () => {
       currentLevel = (MIN_LEVEL) 
       setlevel(currentLevel)} ;
     updateLevel();
-
+    onChangeLevel(Number(circles[currentLevel-1]));
   }
 
   return (
