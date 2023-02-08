@@ -58,13 +58,18 @@ const randomOffset = () => {
   return randomNumber;
 }
 
-function App() {
+const PokeMemory = () => {
 
   const [pokemons, setPokemons] = useState<pokemon[]>(initialPokemons)
   const [limit, setLimit] = useState(10);
   const [response, setResponse] = useState<response>(initialResponse)
   const [selectedBlock, setSelectedBlock] = useState<pokemon | null>(null);
   const [animation, setAnimation] = useState(false);
+  const [columns, setColumns] = useState(5);
+
+  const styles = {
+    gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`
+  }
 
   const handleOnClick = (block: pokemon) => {
     const flippedBlock = {...block, flipped: true}
@@ -93,6 +98,11 @@ function App() {
   const onChangeLevel = (blocksQuantity: number) => {
     const limit = blocksQuantity / 2;
     setLimit(limit);
+
+    if(blocksQuantity===40) setColumns(8);
+    else if (blocksQuantity===50) setColumns(10);
+    else setColumns(5);
+
     console.log('On change:', limit);
   }
 
@@ -125,7 +135,7 @@ function App() {
 {/*       <img src={pokeMemory} alt="Poke-Memory Logo" className='poke-logo' /> */}
       <h1>PokeMemory</h1>
       <div className='content'>
-        <div className='board'>
+        <div className='board' style={styles}>
           {
             pokemons.map((pokemon, index)=>(
               <MemoBlock 
@@ -147,4 +157,4 @@ function App() {
   )
 }
 
-export default App;
+export default PokeMemory;
