@@ -12,11 +12,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  user-select: none;
 
   
   --line-border-fill: #3498db;
   --line-border-empty: #dee2e6;
-  --poke-btn: #e63946;
+  --poke-btn: #E94957;
+  --poke-btn-hover: #e63946;
 }
 
 body {

@@ -1,5 +1,5 @@
-import { createRef, useEffect, useRef, useState } from 'react'
-import '../levels.css'
+import { createRef, Dispatch, useRef, useState } from 'react'
+import '../styles/levels.css'
 
 type props = {
   onChangeLevel: (blocksQuantity: number) => void;
@@ -7,7 +7,7 @@ type props = {
 
 const MIN_LEVEL = 1;
 const MAX_LEVEL = 4;
-const circles = ['20','30','40','50'];
+let circles = ['20','30','40','50'];
 let currentLevel = 1;
 
 
@@ -38,7 +38,6 @@ const Dropdown = ({onChangeLevel}: props) => {
 
   const handleNext = () => {
     currentLevel++;
-    console.log('current level: ', currentLevel)
     setlevel(currentLevel);
     if(currentLevel>circles.length) {
       currentLevel = (circles.length)
@@ -70,8 +69,8 @@ const Dropdown = ({onChangeLevel}: props) => {
           ))
         }
       </div>
-      <button className="btn" id="prev" onClick={handlePrevious} disabled={level===MIN_LEVEL? true: false} >Prev</button>
-      <button className="btn" id="next" onClick={handleNext} disabled={level===MAX_LEVEL? true: false}>Next</button>
+      <button className="btn" id="prev" onClick={handlePrevious} disabled={level===MIN_LEVEL? true: false} >PREVIOUS</button>
+      <button className="btn" id="next" onClick={handleNext} disabled={level===MAX_LEVEL? true: false}>NEXT</button>
   </div>
   )
 }

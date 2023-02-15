@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { pokemon } from '../types'
-import '../App.css'
+import '../styles/App.css'
 
 type props = {
   pokemon: pokemon;

@@ -1,22 +1,11 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { response, pokemon } from './types'
-import './App.css'
+import './styles/App.css'
 import MemoBlock from './components/MemoBlock'
 import Levels from './components/Levels'
-import pokeMemory from './assets/pokeMemory.webp'
-
-const initialResponse: response= {
-  count: null,
-  next: null,
-  previous: null,
-  results: []
-}
-
-
-
-const initialPokemons: pokemon[] = []
-const EMPTY = 0;
+import Loader from './components/Loader'
+import VictoryModal from './components/VictoryModal'
 
 const getPokemonByName = async (name: string) => {
   const url = `https://pokeapi.co/api/v2/pokemon/${name}`;
@@ -57,15 +46,18 @@ const randomOffset = () => {
   const randomNumber = Math.floor(Math.random() * limit);
   return randomNumber;
 }
+const initialPokemons: pokemon[] = []
 
 const PokeMemory = () => {
 
-  const [pokemons, setPokemons] = useState<pokemon[]>(initialPokemons)
+  const [board, setBoard] = useState<pokemon[]>(initialPokemons)
   const [limit, setLimit] = useState(10);
-  const [response, setResponse] = useState<response>(initialResponse)
   const [selectedBlock, setSelectedBlock] = useState<pokemon | null>(null);
   const [animation, setAnimation] = useState(false);
   const [columns, setColumns] = useState(5);
+  const [isFetching, setIsFetching] = useState(true);
+  const [victory, setVictory] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const styles = {
     gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`
@@ -73,10 +65,16 @@ const PokeMemory = () => {
 
   const handleOnClick = (block: pokemon) => {
     const flippedBlock = {...block, flipped: true}
-    console.log(flippedBlock.flipped)
-    let pokemonsBoardCopy = [...pokemons];
+    let pokemonsBoardCopy = [...board];
     pokemonsBoardCopy.splice(block.index as number, 1, flippedBlock);
-    setPokemons(pokemonsBoardCopy);
+
+    setBoard(pokemonsBoardCopy);
+
+    if(pokemonsBoardCopy.every((block)=>(block.flipped))){
+      setVictory(true);
+      setShowModal(true);
+      return;
+    }
 
     if(selectedBlock === null){
       setSelectedBlock(block);
@@ -88,34 +86,38 @@ const PokeMemory = () => {
       setTimeout(() => {
         pokemonsBoardCopy.splice(block.index as number, 1, block);
         pokemonsBoardCopy.splice(selectedBlock.index as number, 1, selectedBlock);
-        setPokemons(pokemonsBoardCopy);
+        setBoard(pokemonsBoardCopy);
         setSelectedBlock(null);
         setAnimation(false);
       }, 1000);
     }
   }
 
+  const handleRestart = () => {
+    setVictory(false);
+    setBoard(board.map(block=>{
+      return {
+        ...block, flipped: false
+      }
+    }))
+  }
+
   const onChangeLevel = (blocksQuantity: number) => {
+    setVictory(false);
     const limit = blocksQuantity / 2;
     setLimit(limit);
 
     if(blocksQuantity===40) setColumns(8);
     else if (blocksQuantity===50) setColumns(10);
     else setColumns(5);
-
-    console.log('On change:', limit);
   }
 
   useEffect(()=>{
-    /* if(pokemons.length === EMPTY){ */
-      console.log('USE EFFECT')
       const fetchData = async () => {
-        /* const limit = l; */
+        setIsFetching(true);
         const offset = randomOffset();
         const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
-  
         const data: response = response.data;
-        setResponse(data);
 
         const board = await createBoard(data);
         const shuffledBoard = shuffleBoard([...board, ...board]);
@@ -123,37 +125,47 @@ const PokeMemory = () => {
           ...block, index: i
         }));
 
-        setPokemons(finalBoard);
-        console.log(finalBoard);
+        setBoard(finalBoard);
+        setIsFetching(false);
       }
       fetchData();
-    /* } */
   },[limit]);
 
   return (
-    <div className="Pokememory">
-{/*       <img src={pokeMemory} alt="Poke-Memory Logo" className='poke-logo' /> */}
+    <>
+      <div className={`Pokememory ${victory && showModal? 'blur': 'blur-none'}`}>
       <h1>PokeMemory</h1>
       <div className='content'>
-        <div className='board' style={styles}>
+        <div className='board-container'>
           {
-            pokemons.map((pokemon, index)=>(
-              <MemoBlock 
-              pokemon={pokemon} 
-              key={index}
-              animation={animation}
-              handleOnClick={handleOnClick}
-              />
-            ))
+            isFetching ? <Loader></Loader>
+            :
+            <div className='board' style={styles}>
+            {
+              
+              board.map((pokemon, index)=>(
+                <MemoBlock 
+                pokemon={pokemon} 
+                key={index}
+                animation={animation}
+                handleOnClick={handleOnClick}
+                />
+              ))
+            }
+            </div>
           }
+
         </div>
         <div className='options'>
-          <button className='poke-btn'>Restart</button>
-          <Levels onChangeLevel={onChangeLevel}/>
+          <button onClick={handleRestart} className='poke-btn'>RESTART</button>
+          <Levels onChangeLevel={onChangeLevel} />
         </div>
-
       </div>
     </div>
+      {
+        victory && showModal? <VictoryModal setShowModal={setShowModal} /> : null
+      }
+    </>
   )
 }
 

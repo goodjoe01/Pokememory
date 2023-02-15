@@ -36,11 +36,12 @@
 }
 
 .circle {
+  font-size: 20px;
   background-color: #1f1f1f;
   color:#e2e2e2;
   border-radius: 50%;
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,6 +55,7 @@
  
 .btn {
   background-color: var(--line-border-fill);
+  font-weight: 600;
   color: #fff;
   border: 0;
   border-radius: 6px;
@@ -61,11 +63,24 @@
   font-family: inherit;
   padding: 8px 30px;
   margin: 5px;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .btn:disabled {
   background-color: var(--line-border-empty);
   cursor: not-allowed;
   transform: none;
+}
+
+@media screen and (max-width:768px)  {
+  .container {
+    display: none;
+  }
+}
+
+@media screen and (min-width:769px) and (max-width:1536px)  {
+  .poke-btn {
+    margin-top: 20px;
+    order: 1;
+  }
 }

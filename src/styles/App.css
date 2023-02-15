@@ -1,7 +1,16 @@
  .Pokememory {
-  height: 100%;
-
+  height: 90%;
 } 
+
+.blur {
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+.blur-none {
+  filter: none;
+  pointer-events: all;
+}
 
 .poke-logo {
   width: 40%;
@@ -15,42 +24,49 @@ h1 {
   height: 100%;
   width: 100%;
   display: flex;
-  justify-content: center;
-  justify-content: start;
-  /* margin: 0 50px; */
 }
 
+.board-container {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .options {
-  flex: .3;
+  flex: .4;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin: 0 20px;
 }
 .poke-btn{
-  width: 50%;
-  height: 2rem;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 5px;
+  width: 200px;
+  height: 3rem;
   border: none;
   border-radius: 5px;
   margin-bottom: 15px;
   background-color: var(--poke-btn);
 } 
-
-
+.poke-btn:hover {
+  background:  var(--poke-btn-hover) ;
+}
 
 .board {
-  /* margin: auto; */
   flex: .8;
   height: 90%;
   display: grid;
-  /* width: 500px; */
-  /* grid-template-columns: repeat(10, minmax(0, 1fr)); */
   gap: 10px;
   padding: 0 20px;
 }
 
 .poke-block {
-  /* aspect-ratio: 1 / 1; */
   width: 100%;
   height: 100%;
 }
@@ -63,7 +79,6 @@ h1 {
 
 .poke-block-inner {
   position: relative;
-  /* width: 100%; */
   height: 100%;
   transition: transform 0.6s;
   transform-style: preserve-3d;
@@ -92,4 +107,41 @@ h1 {
 
 .poke-block-flipped {
   transform: rotateY(180deg);
+}
+
+@media screen and (max-width:769px)  {
+  .board {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .content {
+    flex-direction: column;
+  }
+  .options {
+    flex: none;
+  }
+}
+
+@media screen and (min-width:770px) and (max-width:1536px)  {
+  .content {
+    flex-direction: column;
+  }
+  .board-container {
+    flex: 1;
+  }
+  .options {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+  }
+  .poke-btn {
+    font-size: 1rem;
+    margin-bottom: 0;
+    font-weight: 800;
+    letter-spacing: 0.1rem;
+  }
+  h2 {
+    font-size: 1.2rem;
+  }
 }
