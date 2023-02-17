@@ -58,8 +58,8 @@ const PokeMemory = () => {
   const [animation, setAnimation] = useState(false);
   const [columns, setColumns] = useState(5);
   const [isFetching, setIsFetching] = useState(true);
-  const [victory, setVictory] = useState(true);
-  const [showModal, setShowModal] = useState(true);
+  const [victory, setVictory] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const styles = {
     gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`
