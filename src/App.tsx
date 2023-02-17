@@ -6,6 +6,7 @@ import MemoBlock from './components/MemoBlock'
 import Levels from './components/Levels'
 import Loader from './components/Loader'
 import VictoryModal from './components/VictoryModal'
+import { useMediaQuery } from 'react-responsive'
 
 const getPokemonByName = async (name: string) => {
   const url = `https://pokeapi.co/api/v2/pokemon/${name}`;
@@ -50,6 +51,7 @@ const initialPokemons: pokemon[] = []
 
 const PokeMemory = () => {
 
+  const isSmall = useMediaQuery({maxWidth:'768px'})
   const [board, setBoard] = useState<pokemon[]>(initialPokemons)
   const [limit, setLimit] = useState(10);
   const [selectedBlock, setSelectedBlock] = useState<pokemon | null>(null);
@@ -113,6 +115,7 @@ const PokeMemory = () => {
   }
 
   useEffect(()=>{
+    if(isSmall) setColumns(4);
       const fetchData = async () => {
         setIsFetching(true);
         const offset = randomOffset();

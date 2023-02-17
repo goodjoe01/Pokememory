@@ -63,7 +63,9 @@
   font-family: inherit;
   padding: 8px 30px;
   margin: 5px;
-  font-size: 20px;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.1rem;
 }
 
 .btn:disabled {
@@ -77,10 +79,28 @@
     display: none;
   }
 }
+@media screen and (min-width:769px) and (max-width:960px) {
+  .progress-container {
+    margin-bottom: 15px;
+  }
+}
 
 @media screen and (min-width:769px) and (max-width:1536px)  {
   .poke-btn {
     margin-top: 20px;
     order: 1;
+  }
+  .btn {
+    font-size: .8rem;
+    width: 120px;
+    font-weight: 800;
+    letter-spacing: 0.1rem;
+    padding: 10px 20px;
+  }
+
+  .circle {
+    font-size: 20px;
+    height: 30px;
+    width: 30px;
   }
 }

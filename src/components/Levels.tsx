@@ -1,4 +1,4 @@
-import { createRef, Dispatch, useRef, useState } from 'react'
+import { createRef, useRef, useState } from 'react'
 import '../styles/levels.css'
 
 type props = {
