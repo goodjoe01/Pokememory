@@ -1,12 +1,15 @@
 .modal {
   position: absolute;
-  top: 45%;
-  left: 45%;
+  top: 50%;
+  left: 50%;
   background: #edf2f4;
   color: black;
   border-radius: 5px;
   font-size: 20px;
   font-weight: 500;
+  transform: translate(-50%, -50%);
+  min-width: 200px;
+
 }
 .modal-content {
   padding: 20px;
@@ -17,17 +20,36 @@
 }
 
 .modal-close {
-  width: 30%;
+  width: 150px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 1rem;
   background: var(--poke-btn) ;
   color: #fff;
   font-weight: 600;
-  padding: 15px;
+  padding: 10px 5px;
   border: none;
   border-radius: 5px;
 }
 
 .modal-close:hover {
   background:  var(--poke-btn-hover) ;
+}
+
+@media screen and (max-width: 768px) {
+  .modal {
+    min-width: 200px;
+  }
+  .modal-content {
+    padding: 10px;
+    display: flex;
+  }
+  .modal-content p {
+    font-size: 1rem;
+  }
+  .modal-close {
+    padding: 10px 5px;
+    font-size: .8rem;
+    width: 100px;
+    letter-spacing: .1rem;
+  }
 }

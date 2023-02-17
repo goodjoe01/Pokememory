@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from "react";
+import React, { Dispatch } from "react";
 import "../styles/victoryModal.css";
 
 interface VictoryModalProps {
